@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class SwingEx extends JFrame {
 	public SwingEx() {
-		setTitle("스윙 컴포넌트 보이기 예제");
+		setTitle("I am 앆꾸아뭰");
 		createMenu();
 		createToolBar();
 		createSplitPane();
@@ -22,7 +22,6 @@ public class SwingEx extends JFrame {
 
 		this.setJMenuBar(mb);
 	}
-	
 	private void createToolBar() {
 		JToolBar bar = new JToolBar("Kitae Menu");
 		
@@ -42,6 +41,10 @@ public class SwingEx extends JFrame {
 		bar.add(combo);
 		add(bar, BorderLayout.NORTH);
 	}
+	
+	public void imgbutton() {
+		
+	}
 
 	private void createSplitPane() {
 		String [] fruits= {"apple", "banana", "kiwi", "mango", "pear", 
@@ -49,7 +52,7 @@ public class SwingEx extends JFrame {
 
 		JList<String> scrollList = new JList<String>(fruits);
 		JSplitPane pane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				new JScrollPane(scrollList), new JScrollPane(new JLabel(new ImageIcon("images/img3.jpg")))); // JTabbedPane.LEFT
+				new JScrollPane(scrollList), new JScrollPane(new JLabel(new ImageIcon("images/img5.jpg")))); // JTabbedPane.LEFT
 		add(pane, BorderLayout.CENTER);
 	}
 
