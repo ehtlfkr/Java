@@ -3,6 +3,8 @@ import java.awt.Container;
 import javax.swing.JFrame;
 
 public class FlowLayoutEx extends JFrame {
+
+
 	public FlowLayoutEx() {
 		setTitle("FlowLayout");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

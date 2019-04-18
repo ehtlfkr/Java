@@ -12,7 +12,7 @@ public class SwingEx extends JFrame {
 		setVisible(true);
 	}
 
-	private void createMenu() {
+		private void createMenu() {
 		JMenuBar mb = new JMenuBar();
 		mb.add(new JMenu("File"));
 		mb.add(new JMenu("Edit"));
@@ -49,7 +49,7 @@ public class SwingEx extends JFrame {
 
 		JList<String> scrollList = new JList<String>(fruits);
 		JSplitPane pane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				new JScrollPane(scrollList), new JScrollPane(new JLabel(new ImageIcon("images/img1.jpg")))); // JTabbedPane.LEFT
+				new JScrollPane(scrollList), new JScrollPane(new JLabel(new ImageIcon("images/img3.jpg")))); // JTabbedPane.LEFT
 		add(pane, BorderLayout.CENTER);
 	}
 
