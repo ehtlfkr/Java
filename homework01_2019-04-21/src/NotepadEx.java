@@ -35,14 +35,17 @@ public class NotepadEx extends JFrame {
 
 	private void createTextArea() {	
 		
-		JTextArea a = new JTextArea(1000, 800);
+		JTextArea a = new JTextArea();
 		
-		a.setFont(new Font("¸¼Àº°íµñ", Font.ITALIC, 20));
+		a.setFont(new Font("¸¼Àº°íµñ", Font.CENTER_BASELINE, 20));
 		
-		add(a, BorderLayout.NORTH);
+		this.add(a);
 	}
 
+	
 	public static void main(String[] args) {
 		new NotepadEx();
 	}
+	
+	
 }
