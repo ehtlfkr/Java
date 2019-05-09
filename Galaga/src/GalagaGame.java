@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -8,12 +10,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GalagaGame extends JPanel implements KeyListener {
 
 	private boolean running = true;
+	
+	int Score = 0;
 
 	private ArrayList sprites = new ArrayList();
 	private Sprite starship;
@@ -29,6 +35,18 @@ public class GalagaGame extends JPanel implements KeyListener {
 		frame.add(this);
 		frame.setResizable(false);
 		frame.setVisible(true);
+		
+		JPanel ssss = new JPanel();
+		
+		JLabel aaa = new JLabel("스코어" + Score);
+		aaa.setOpaque(true);
+		aaa.setForeground(Color.WHITE);
+		ssss.add(aaa);
+		
+		ssss.setSize(100, 60);
+		
+		frame.add(ssss);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		try {
@@ -57,8 +75,25 @@ public class GalagaGame extends JPanel implements KeyListener {
 	}
 
 	private void startGame() {
+		int a = 0;
 		sprites.clear();
 		initSprites();
+		newwin(a);
+		Score = 0;
+	}
+	
+	public void newwin(int a) {
+		if(a == 1){
+			new newWindow();
+		}
+	}
+	
+	public void reGame() {
+		int a = 0;
+		sprites.clear();
+		initSprites();
+		newwin(a);
+		Score = 0;
 	}
 
 	public void endGame() {
@@ -67,6 +102,10 @@ public class GalagaGame extends JPanel implements KeyListener {
 
 	public void removeSprite(Sprite sprite) {
 		sprites.remove(sprite);
+		Score += 10;
+		/*if(sprites.remove(alienImage)){
+			Score += 10;
+		}*/
 	}
 
 	public void fire() {
@@ -95,7 +134,7 @@ public class GalagaGame extends JPanel implements KeyListener {
 
 			for (int p = 0; p < sprites.size(); p++) {
 				for (int s = p + 1; s < sprites.size(); s++) {
-					Sprite me = (Sprite) sprites.get(p);
+				   	Sprite me = (Sprite) sprites.get(p);
 					Sprite other = (Sprite) sprites.get(s);
 
 					if (me.checkCollision(other)) {
@@ -119,6 +158,10 @@ public class GalagaGame extends JPanel implements KeyListener {
 			starship.setDx(-3);
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
 			starship.setDx(+3);
+		if (e.getKeyCode() == KeyEvent.VK_UP)
+			starship.setDy(-3);
+		if (e.getKeyCode() == KeyEvent.VK_DOWN)
+			starship.setDy(+3);
 		if (e.getKeyCode() == KeyEvent.VK_SPACE)
 			fire();
 	}
@@ -129,6 +172,10 @@ public class GalagaGame extends JPanel implements KeyListener {
 			starship.setDx(0);
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
 			starship.setDx(0);
+		if (e.getKeyCode() == KeyEvent.VK_UP)
+			starship.setDy(0);
+		if (e.getKeyCode() == KeyEvent.VK_DOWN)
+			starship.setDy(0  );
 	}
 
 	@Override
@@ -139,4 +186,46 @@ public class GalagaGame extends JPanel implements KeyListener {
 		GalagaGame g = new GalagaGame();
 		g.gameLoop();
 	}
+	
+	class newWindow extends JFrame {
+	    newWindow() {
+	        setTitle("게임 메세지");
+	        
+	        JPanel NewWindowContainer = new JPanel();
+	        setContentPane(NewWindowContainer);
+	        
+	        JLabel Score1 = new JLabel("최종 스코어 : " + Score);
+	        
+	        JLabel NewLabel = new JLabel("<html><center>게임을 종료 하시겠다면  End,<br>계속 하시겠다면 Regame를 눌러주세요.</center></html>");
+	        
+	        JButton end = new JButton("End");
+	        JButton regame = new JButton("Regame");
+	        
+	        end.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					endGame();
+					
+				}
+			});
+	        
+	        regame.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					reGame();
+					setVisible(false);
+					
+				}
+			});
+	        
+	        NewWindowContainer.add(end);
+	        NewWindowContainer.add(regame);
+	        NewWindowContainer.add(NewLabel);
+	        NewWindowContainer.add(Score1);
+	        
+	        
+	        setSize(300,150);
+	        setResizable(false);
+	        setVisible(true);
+	    }
+	}
+	
 }

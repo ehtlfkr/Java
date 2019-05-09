@@ -1,4 +1,8 @@
-import java.awt.Image;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 public class StarShipSprite extends Sprite {
 	private GalagaGame game;
@@ -15,7 +19,7 @@ public class StarShipSprite extends Sprite {
 		if ((dx < 0) && (x < 10)) {
 			return;
 		}
-		if ((dx > 0) && (x > 800)) {
+		if ((dx > 0) && (x > 760)) {
 			return;
 		}
 		super.move();
@@ -24,7 +28,10 @@ public class StarShipSprite extends Sprite {
 	@Override
 	public void handleCollision(Sprite other) {
 		if (other instanceof AlienSprite) {
-			game.endGame();
+			game.removeSprite(this);
+			int a = 1;
+			game.newwin(a);
 		}
 	}
+
 }

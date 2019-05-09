@@ -1,6 +1,5 @@
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Rectangle;
+import java.awt.*;
+import javax.swing.*;
 
 public class Sprite {
 	protected int x; // 현재 위치의 x좌표
