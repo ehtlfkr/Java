@@ -1,19 +1,11 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.*;
+import java.util.*;
 
-import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.imageio.*;
+import javax.swing.*;
 
 public class GalagaGame extends JPanel implements KeyListener {
 
@@ -38,12 +30,12 @@ public class GalagaGame extends JPanel implements KeyListener {
 		
 		JPanel ssss = new JPanel();
 		
-		JLabel aaa = new JLabel("스코어" + Score);
+		JLabel aaa = new JLabel("스코어 : " + Score);
 		aaa.setOpaque(true);
 		aaa.setForeground(Color.WHITE);
+		
 		ssss.add(aaa);
 		
-		ssss.setSize(100, 60);
 		
 		frame.add(ssss);
 		
@@ -164,6 +156,8 @@ public class GalagaGame extends JPanel implements KeyListener {
 			starship.setDy(+3);
 		if (e.getKeyCode() == KeyEvent.VK_SPACE)
 			fire();
+		if (e.getKeyCode() == KeyEvent.VK_R)
+			new stopwin();
 	}
 
 	@Override
@@ -196,7 +190,7 @@ public class GalagaGame extends JPanel implements KeyListener {
 	        
 	        JLabel Score1 = new JLabel("최종 스코어 : " + Score);
 	        
-	        JLabel NewLabel = new JLabel("<html><center>게임을 종료 하시겠다면  End,<br>계속 하시겠다면 Regame를 눌러주세요.</center></html>");
+	        JLabel NewLabel = new JLabel("<html><center>게임을 종료 하시겠다면  End,<br>새로 하시겠다면 Regame를 눌러주세요.</center></html>");
 	        
 	        JButton end = new JButton("End");
 	        JButton regame = new JButton("Regame");
@@ -221,6 +215,51 @@ public class GalagaGame extends JPanel implements KeyListener {
 	        NewWindowContainer.add(NewLabel);
 	        NewWindowContainer.add(Score1);
 	        
+	        setSize(300,150);
+	        setResizable(false);
+	        setVisible(true);
+	    }
+	}
+	
+	class stopwin extends JFrame {
+		stopwin() {
+	        setTitle("게임 메세지");
+	        
+	        JPanel NewWindowContainer = new JPanel();
+	        setContentPane(NewWindowContainer);
+	        
+	        JLabel NewLabel = new JLabel("<html><center>게임을 종료 하시겠다면  End,<br>계속 하시겠다면 go,<br> 새로 하시겠rr다면 Regame을 눌러주세요.</center></html>");
+	        
+	        JButton end = new JButton("End");
+	        JButton regame = new JButton("Regame");
+	        JButton go = new JButton("go");
+	        
+	        end.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					endGame();
+					
+				}
+			});
+	        
+	        regame.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					reGame();
+					setVisible(false);
+					
+				}
+			});
+	        
+	        go.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setVisible(false);
+					
+				}
+			});
+	        
+	        NewWindowContainer.add(end);
+	        NewWindowContainer.add(go);
+	        NewWindowContainer.add(regame);
+	        NewWindowContainer.add(NewLabel);
 	        
 	        setSize(300,150);
 	        setResizable(false);
