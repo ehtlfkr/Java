@@ -2,34 +2,40 @@ package test;
 
 import java.util.Scanner;
 
+
+class dh{
+	public int dhtest(int a, int b){
+		return a+b;
+		
+	}
+}
+
+class bg{
+	public int bgtest(int a, int b){
+		return a-b;
+	}
+}
+
+class gh{
+	public int ghtest(int a, int b){
+		return a*b;
+	}
+}
+
+class nn{
+	public int nntest(int a, int b){
+		return a-b;
+	}
+}
+
 public class test {
 	
-	public static void dhtest(int a, int b){
-		print(a + b);
-	}
-	
-	public static void bgtest(int a, int b){
-		print(a - b);
-	}
-	
-	public static void ghtest(int a, int b){
-		print(a * b);
-	}
-	
-	public static void nntest(int a, int b){
-		if(b == 0)
-			print2();
-		
-		else if(b != 0)
-			print(a / b);
-	}
-	
-	public static void print(int a){
-		System.out.format("계산 결과 : %d", a);
-	}
-	
-	public static void print2(){
+	public static void printZ(){
 		System.out.println("0으론 나눌 수 없습니다.");
+	}
+	
+	public static void printB(){
+		System.out.println("나누는 숫자가 너무 큽니다.");
 	}
 
 
@@ -46,19 +52,34 @@ public class test {
 		
 		switch (tt) {
 		case "+":
-			dhtest(num1, num2);
+			dh dh = new dh();
+			System.out.format("계산 결과 : %d", dh.dhtest(num1, num2));
+			
 			break;
 			
 		case "-":
-			bgtest(num1, num2);
+			bg bg = new bg();
+			System.out.format("계산 결과 : %d", bg.bgtest(num1, num2));
+			
 			break;
 			
 		case "*":
-			ghtest(num1, num2);
+			gh gh = new gh();
+			System.out.format("계산 결과 : %d", gh.ghtest(num1, num2));
+			
 			break;
 			
 		case "/":
-			nntest(num1, num2);
+			nn nn = new nn();
+			if(num1 < num2)
+				printB();
+			
+			else if(num2 != 0)
+				System.out.format("계산 결과 : %d", nn.nntest(num1, num2));
+			
+			else if(num2 == 0)
+				printZ();
+			
 			break;
 
 		default:
