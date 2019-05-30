@@ -35,8 +35,7 @@ class nm{
 
 public class kaisanEx extends JFrame{
 	
-	int number1 = 10;
-	int number2 = 10;
+	int number = 10;
 	int num1;
 	int num2;
 	int num3;
@@ -71,12 +70,12 @@ public class kaisanEx extends JFrame{
 					
 					if( tt == null ){
 						num3 = Integer.parseInt(a);	
-						num1 = (num1 * number1)+num3;
+						num1 = (num1 * number)+num3;
 						
 					}
 					else{
 						num4 = Integer.parseInt(a);
-						num2 = (num2 * number2)+num4;
+						num2 = (num2 * number)+num4;
 					}
 				}
 			});
@@ -109,8 +108,6 @@ public class kaisanEx extends JFrame{
 						text.append(String.valueOf(nan));
 						num1 = nan;
 						num2 = 0;
-						number1 = 1;
-						number2 = 1;
 						tt = null;
 						
 						break;
@@ -122,8 +119,6 @@ public class kaisanEx extends JFrame{
 						text.append(String.valueOf(nan));
 						num1 = nan;
 						num2 = 0;
-						number1 = 1;
-						number2 = 1;
 						tt = null;
 						
 						break;
@@ -135,8 +130,6 @@ public class kaisanEx extends JFrame{
 						text.append(String.valueOf(nan));
 						num1 = nan;
 						num2 = 0;
-						number1 = 1;
-						number2 = 1;
 						tt = null;
 						
 						break;
@@ -155,8 +148,6 @@ public class kaisanEx extends JFrame{
 							text.append(String.valueOf(nan));
 							num1 = nan;
 							num2 = 0;
-							number1 = 1;
-							number2 = 1;
 							tt = null;
 						}
 						
@@ -182,8 +173,6 @@ public class kaisanEx extends JFrame{
 							text.append(String.valueOf(nan));
 							num1 = nan;
 							num2 = 0;
-							number1 = 1;
-							number2 = 1;
 							tt = null;
 						}
 						
