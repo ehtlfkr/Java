@@ -1,120 +1,129 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
 import java.net.*;
+import java.io.*;
 
 public class mainServer extends JFrame {
-	private JTextField TextTF = new JTextField(10);
-	private JTextArea ContentTF = new JTextArea(18,25);
+	private JTextArea TextTF = new JTextArea(5,19);
+	private JTextArea ContentTF = new JTextArea(19,25);
 	private JButton calcBtn = new JButton("전송");
-	private String adminname = "admin";
-	private String username = "";
+	private String adminname = "나";
+	private String username = "낯선사람";
+	private Socket socket = null;
 	private BufferedReader in = null;
 	private BufferedWriter out = null;
-	
-	public mainServer(){
-		super("Admin Chat");
+
+	public mainServer() {
+		super("랜덤채팅");
 		setSize(300, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container c = getContentPane();
 		c.setLayout(new FlowLayout());
-		
+		c.setLayout(new FlowLayout());
 		c.add(new JScrollPane(ContentTF));
 		c.add(new JScrollPane(TextTF));
 		c.add(calcBtn);
 		setVisible(true);
-		
-		
+		setupConnection();
+		new ServerThread().start();
 		calcBtn.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String Texttext = TextTF.getText().trim();
-					
+	               
 					TextTF.setText("");
-					
-					if( Texttext == "" )
+	               
+					if (Texttext == "") 
 						return;
 					
-					out.write(adminname + " : " + Texttext+"\n");
+					out.write(Texttext + "\n");
 					out.flush();
-					
-					ContentTF.append(adminname + " : " + Texttext+"\n");
-					
-				} catch (IOException e) {			
+	               
+					ContentTF.append(adminname + " : " + Texttext + "\n");
+	               
+				} catch (IOException e) {
+					System.out.println("메신저로 부터 연결 종료");
 					return;
 				}
-				
+
 			}
 		});
-		
-		new ServerThread().start();
 	}
-	
-	class ServerThread extends Thread{
+
+	class ServerThread extends Thread {
 		public void run() {
 			ServerSocket listener = null;
 			Socket socket = null;
 			try {
 				listener = new ServerSocket(9998);
-				while(true){
+				while (true) {
 					socket = listener.accept();
-					ContentTF.append(username + "(이)가 접속했습니다.\n");
-					new SercverThread(socket).start();
+					ContentTF.append(username + "(이)가 입장하였습니다.\n");
+					new ServiceThread(socket).start();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
 			try {
-				if(listener != null)
+				if (listener != null)
 					listener.close();
-				if(socket != null)
+				if (socket != null)
 					socket.close();
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	class SercverThread extends Thread {
+
+	class ServiceThread extends Thread {
 		private Socket socket = null;
 		private BufferedReader in = null;
 		private BufferedWriter out = null;
 
-		public SercverThread(Socket socket) {
+		private ServiceThread(Socket socket) {
 			this.socket = socket;
 			try {
 				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		public void run() {
-			while(true){
-				try{
+			while (true) {
+				try {
 					String text = in.readLine();
 					
-					ContentTF.append(text + "\n");
-					
-				}
-				catch (IOException e) {
-					ContentTF.append("님이 나가셨습니다. \n");
+					ContentTF.append(username  + " : " +  text + "\n");
+				} catch (IOException e) {
+					ContentTF.append(username + "(이)가 퇴장하였습니다.\n");
+					System.out.println("메신저로 부터 연결 종료");
 					return;
 				}
 			}
 		}
 	}
-	
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new mainServer();
+	public void setupConnection() {
+		try {
+			socket = new Socket("localhost", 9997);
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
+	public static void main(String[] args) {
+		new mainServer();
+
+	}
 }
+
+

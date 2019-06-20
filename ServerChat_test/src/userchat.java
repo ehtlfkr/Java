@@ -5,20 +5,18 @@ import java.io.*;
 import java.net.*;
 
 public class userchat extends JFrame {
-	private JTextField TextTF = new JTextField(10);
-	private JTextArea ContentTF = new JTextArea(18,25);
-	private String username = "수용이";
+	private JTextArea TextTF = new JTextArea(5,19);
+	private JTextArea ContentTF = new JTextArea(19,25);
 	private JButton calcBtn = new JButton("전송");
+	private String adminname = "나";
+	private String username = "낯선사람";
 	private Socket socket = null;
 	private BufferedReader in = null;
 	private BufferedWriter out = null;
-	
-	public void username(String username){
-		this.username = username;
-	}
-	
+
 	public userchat() {
-		super("userChat");
+
+		super("랜덤채팅");
 		setSize(300, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container c = getContentPane();
@@ -26,74 +24,104 @@ public class userchat extends JFrame {
 		c.add(new JScrollPane(ContentTF));
 		c.add(new JScrollPane(TextTF));
 		c.add(calcBtn);
-		
 		setVisible(true);
+		new ServerThread().start();
 		setupConnection();
-		
-		
+
 		calcBtn.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String Texttext = TextTF.getText().trim();
-					
+	               
 					TextTF.setText("");
-					
-					if( Texttext == "" )
+	               
+					if (Texttext == "")
 						return;
 					
-					out.write(username + " : " + Texttext+"\n");
+					out.write(Texttext + "\n");
 					out.flush();
-					
-					ContentTF.append(username + " : " + Texttext + "\n");
-					
+					ContentTF.append(adminname + " : " + Texttext + "\n");
+	               
 				} catch (IOException e) {
-					System.out.println("클라이언트 : 서버로부터 연결 종료");
-					
+					System.out.println("메신저로 부터 연결 종료");
 					return;
 				}
-				
+
 			}
 		});
-	
 	}
-	
+
+	class ServerThread extends Thread {
+		public void run() {
+			ServerSocket listener = null;
+			Socket socket = null;
+			try {
+				listener = new ServerSocket(9997);
+				while (true) {
+					socket = listener.accept();
+					new ServiceThread(socket).start();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (listener != null)
+					listener.close();
+				if (socket != null)
+					socket.close();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	class ServiceThread extends Thread {
+		private Socket socket = null;
+		private BufferedReader in = null;
+		private BufferedWriter out = null;
+
+		private ServiceThread(Socket socket) {
+			this.socket = socket;
+			try {
+				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		public void run() {
+			while (true) {
+				try {
+					String Texttext = in.readLine();
+					
+					ContentTF.append(username + " : " + Texttext + "\n");
+				} catch (IOException e) {
+					ContentTF.append(username + "(이)가 퇴장하였습니다.\n");
+					System.out.println("메신저로 부터 연결 종료");
+					return;
+				}
+			}
+		}
+	}
+
 	public void setupConnection() {
 		try {
-			socket = new Socket("localhost",9998);
+			socket = new Socket("localhost", 9998);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			
-		}catch (UnknownHostException e) {
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
-			
 		} catch (IOException e) {
 			e.printStackTrace();
-			
-		}
-		
-	}
-	
-	public void run() {
-		while(true){
-			try{
-				String text = in.readLine();
-				
-				ContentTF.append(text + "\n");
-				
-			}
-			catch (IOException e) {
-				return;
-			}
 		}
 	}
-	
-	
-	
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		new userchat();
 	}
-
-
 }
+
+
